@@ -1,0 +1,24 @@
+{
+  "name": "morph",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "npx mocha --reporter spec"
+  },
+  "author": "Pasan Gamaetige",
+  "license": "ISC",
+  "dependencies": {
+    "@mapbox/blend": "^2.0.1",
+    "axios": "^0.21.1",
+    "fs": "^0.0.1-security",
+    "minimist": "^1.2.5",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^8.4.0",
+    "nodemon": "^2.0.7"
+  }
+}
