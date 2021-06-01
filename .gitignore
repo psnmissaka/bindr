@@ -3,3 +3,6 @@ node_modules
 
 # generated jpg
 cat-card.jpg
+
+# idea files
+.idea

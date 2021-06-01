@@ -1,4 +1,5 @@
 # Bindr
+
 This is a simple NodeJS project that binds two cat images together with texts of your choice. This uses Cat as a Service
 (https://cataas.com).
 
@@ -10,8 +11,10 @@ This is a simple NodeJS project that binds two cat images together with texts of
 4. Saves the resulting image as a file
 
 ## How to run Bindr
-When running Bindr, users can input following properties. 
-- `greeting` - Greeting text 
+
+When running Bindr, users can input following properties.
+
+- `greeting` - Greeting text
 - `who` - Name text
 - `width` - Width of the image
 - `height` - Height of the image
@@ -19,17 +22,20 @@ When running Bindr, users can input following properties.
 - `size` - Size of the text
 
 ### Run with defaults
+
 You can run the Bindr by running `npm start` command.
 
 ### Running with custom inputs
+
 If you want to pass custom inputs for different properties, you can run bindr as follows.
 
 Ex:
-- Custom greeting text  - `node index.js --greeting welcome`
-- Text color blue       - `node index.js --color Blue`
+
+- Custom greeting text - `node index.js --greeting welcome`
+- Text color blue - `node index.js --color Blue`
 
 ### Running tests
-Run the command ``
+
+Run the command `npm test`
 
 ### Running with Docker
-
