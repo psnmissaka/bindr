@@ -5,7 +5,7 @@ const blend = require('@mapbox/blend');
 const argv = require('minimist')(process.argv.slice(2));
 
 const { logger } = require('./src/logger');
-const encoding = require('./encoding');
+const encoding = require('./src/encoding');
 const requests = require('./src/requests');
 const url = require('./src/url');
 const buffer = require('./src/buffer');

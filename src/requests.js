@@ -1,5 +1,5 @@
 const axios = require('axios');
-const encoding = require('../encoding');
+const encoding = require('./encoding');
 
 // generates an axios request when request options are passed.
 // requestOptions object must contain url and optional encoding
