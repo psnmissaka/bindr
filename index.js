@@ -4,8 +4,12 @@ const axios = require('axios').default;
 const blend = require('@mapbox/blend');
 const argv = require('minimist')(process.argv.slice(2));
 
-const BINARY_ENCODING = 'binary';
-const ARRAY_BUFFER_ENCODING = 'arraybuffer';
+const encoding = require('./encoding');
+const requests = require('./src/requests');
+const url = require('./src/url');
+const buffer = require('./src/buffer');
+
+const FILE_NAME= 'cat-card.jpg';
 
 const {
   greeting = 'Hello',
@@ -16,44 +20,36 @@ const {
   size = 100,
 } = argv;
 
-// generates the URL based on the passed arguments
-const generateUrl = (text) => `https://cataas.com/cat/says/${text}?width=${width}&height=${height}&color=${color}&s=${size}`;
-
-// generates an axios request when request options are passed.
-// requestOptions object must contain url and optional encoding
-const generateAxiosRequestByOptions = (requestOptions) => {
-  const responseType = requestOptions.encoding === BINARY_ENCODING
-    ? ARRAY_BUFFER_ENCODING
-    : requestOptions.encoding;
-  return axios.get(requestOptions.url, { responseType });
-};
-
-const generateBufferObject = (response, x, y, encoding) => ({
-  buffer: Buffer.from(response.data, encoding),
-  x,
-  y,
-});
-
-(async (bindImages) => {
+const bindImages = async () => {
   try {
-    const firstRequest = generateAxiosRequestByOptions({
-      url: generateUrl(greeting),
-      encoding: BINARY_ENCODING,
+    const firstRequest = requests.generateAxiosRequestByOptions({
+      url: url.generateUrl(greeting, width, height, color, size),
+      encoding: encoding.BINARY_ENCODING,
     });
-    const secondRequest = generateAxiosRequestByOptions({
-      url: generateUrl(who),
-      encoding: BINARY_ENCODING,
+    const secondRequest = requests.generateAxiosRequestByOptions({
+      url: url.generateUrl(who, width, height, color, size),
+      encoding: encoding.BINARY_ENCODING,
     });
 
     const responses = await axios.all([firstRequest, secondRequest]);
 
-    if (responses[0].status === '200' && responses[1].status === '200') {
+    if (responses[0].status === 200 && responses[1].status === 200) {
       console.log('Successfully received responses from CataaS');
 
       blend(
         [
-          generateBufferObject(responses[0], 0, 0, BINARY_ENCODING),
-          generateBufferObject(responses[1], width, 0, BINARY_ENCODING),
+          buffer.generateBufferObject(
+            responses[0],
+            0,
+            0,
+            encoding.BINARY_ENCODING,
+          ),
+          buffer.generateBufferObject(
+            responses[1],
+            width,
+            0,
+            encoding.BINARY_ENCODING,
+          ),
         ],
         {
           width: width * 2,
@@ -64,14 +60,14 @@ const generateBufferObject = (response, x, y, encoding) => ({
           if (err) {
             console.log('Error binding the images');
           }
-          const fileOut = join(process.cwd(), '/cat-card.jpg');
-          writeFile(fileOut, data, BINARY_ENCODING, (err) => {
-            if (err) {
-              console.log(err);
+          const fileOut = join(process.cwd(), `/${FILE_NAME}`);
+          writeFile(fileOut, data, encoding.BINARY_ENCODING, (fileWriteErr) => {
+            if (fileWriteErr) {
+              console.log(fileWriteErr);
               return;
             }
 
-            console.log('the file was saved!');
+            console.log(`The file was saved as ${FILE_NAME}!`);
           });
         },
       );
@@ -79,10 +75,12 @@ const generateBufferObject = (response, x, y, encoding) => ({
   } catch (error) {
     console.error(error.message);
   }
-})();
-
-module.exports = {
-  generateUrl,
-  generateBufferObject,
-  generateAxiosRequestByOptions,
 };
+
+bindImages()
+  .then(() => {
+    console.log('Images were succesfully bind');
+  })
+  .catch((err) => {
+    console.log('Error binding image', err);
+  });
