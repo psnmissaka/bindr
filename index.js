@@ -4,6 +4,7 @@ const axios = require('axios').default;
 const blend = require('@mapbox/blend');
 const argv = require('minimist')(process.argv.slice(2));
 
+const { logger } = require('./src/logger');
 const encoding = require('./encoding');
 const requests = require('./src/requests');
 const url = require('./src/url');
@@ -34,7 +35,7 @@ const bindImages = async () => {
     const responses = await axios.all([firstRequest, secondRequest]);
 
     if (responses[0].status === 200 && responses[1].status === 200) {
-      console.log('Successfully received responses from CataaS');
+      logger.info('Successfully received responses from CataaS');
 
       blend(
         [
@@ -58,7 +59,7 @@ const bindImages = async () => {
         },
         (err, data) => {
           if (err) {
-            console.log('Error binding the images');
+            logger.info('Error binding the images');
           }
           const fileOut = join(process.cwd(), `/${FILE_NAME}`);
           writeFile(fileOut, data, encoding.BINARY_ENCODING, (fileWriteErr) => {
@@ -67,7 +68,7 @@ const bindImages = async () => {
               return;
             }
 
-            console.log(`The file was saved as ${FILE_NAME}!`);
+            logger.info(`The file was saved as ${FILE_NAME}!`);
           });
         },
       );
@@ -79,7 +80,7 @@ const bindImages = async () => {
 
 bindImages()
   .then(() => {
-    console.log('Images were succesfully bind');
+    logger.info('Images were succesfully bind');
   })
   .catch((err) => {
     console.log('Error binding image', err);
