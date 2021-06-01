@@ -9,7 +9,7 @@ const requests = require('./src/requests');
 const url = require('./src/url');
 const buffer = require('./src/buffer');
 
-const FILE_NAME= 'cat-card.jpg';
+const FILE_NAME = 'cat-card.jpg';
 
 const {
   greeting = 'Hello',

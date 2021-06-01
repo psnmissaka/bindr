@@ -1,5 +1,3 @@
-const assert = require('assert');
-const axios = require('axios');
 const { expect } = require('chai');
 const { generateAxiosRequestByOptions } = require('../src/requests');
 

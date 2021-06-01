@@ -1,4 +1,3 @@
-const assert = require('assert');
 const axios = require('axios');
 const { expect } = require('chai');
 const { generateBufferObject } = require('../src/buffer');
